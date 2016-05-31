@@ -996,8 +996,8 @@ int mbedtls_camellia_self_test( int verbose )
         }
     }
 
-        if( verbose != 0 )
-            mbedtls_printf( "passed\n" );
+    if( verbose != 0 )
+        mbedtls_printf( "passed\n" );
     }
 #endif /* MBEDTLS_CIPHER_MODE_CBC */
 

@@ -285,6 +285,11 @@ int mbedtls_cipher_update( mbedtls_cipher_context_t *ctx, const unsigned char *i
     }
 #endif
 
+    if ( mbedtls_cipher_get_block_size( ctx ) == 0 )
+    {
+        return MBEDTLS_ERR_CIPHER_CORRUPTED_CONTEXT;
+    }
+
     if( input == output &&
        ( ctx->unprocessed_len != 0 || ilen % mbedtls_cipher_get_block_size( ctx ) ) )
     {
@@ -314,7 +319,7 @@ int mbedtls_cipher_update( mbedtls_cipher_context_t *ctx, const unsigned char *i
         /*
          * Process cached data first
          */
-        if( ctx->unprocessed_len != 0 )
+        if( 0 != ctx->unprocessed_len )
         {
             copy_len = mbedtls_cipher_get_block_size( ctx ) - ctx->unprocessed_len;
 
@@ -341,6 +346,11 @@ int mbedtls_cipher_update( mbedtls_cipher_context_t *ctx, const unsigned char *i
          */
         if( 0 != ilen )
         {
+            if( mbedtls_cipher_get_block_size( ctx ) == 0)
+            {
+                return MBEDTLS_ERR_CIPHER_CORRUPTED_CONTEXT;
+            }
+
             copy_len = ilen % mbedtls_cipher_get_block_size( ctx );
             if( copy_len == 0 && ctx->operation == MBEDTLS_DECRYPT )
                 copy_len = mbedtls_cipher_get_block_size( ctx );

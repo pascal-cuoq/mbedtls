@@ -1353,6 +1353,15 @@ int mbedtls_x509_crt_info( char *buf, size_t size, const char *prefix,
     p = buf;
     n = size;
 
+    if( NULL == crt )
+    {
+        ret = mbedtls_snprintf( p, n, "\nCertificate is uninitialised!\n" );
+        MBEDTLS_X509_SAFE_SNPRINTF;
+
+        return( (int) ( size - n ) );
+    }
+
+
     ret = mbedtls_snprintf( p, n, "%scert. version     : %d\n",
                                prefix, crt->version );
     MBEDTLS_X509_SAFE_SNPRINTF;
