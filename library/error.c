@@ -183,6 +183,8 @@ void mbedtls_strerror( int ret, char *buf, size_t buflen )
             mbedtls_snprintf( buf, buflen, "CIPHER - Decryption of block requires a full block" );
         if( use_ret == -(MBEDTLS_ERR_CIPHER_AUTH_FAILED) )
             mbedtls_snprintf( buf, buflen, "CIPHER - Authentication failed (for AEAD modes)" );
+        if( use_ret == -(MBEDTLS_ERR_CIPHER_CORRUPTED_CONTEXT) )
+            mbedtls_snprintf( buf, buflen, "CIPHER - This shouldn't happen" );
 #endif /* MBEDTLS_CIPHER_C */
 
 #if defined(MBEDTLS_DHM_C)
